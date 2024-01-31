@@ -1,0 +1,30 @@
+[versions]
+composePlatform = "2023.08.00"
+ktx = "1.9.0"
+
+[libraries]
+#ktx
+ktx-Core = { group = "androidx.core", name = "core-ktx", version = "1.12.0" }
+ktx-Lifecycle = {group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.7.0"}
+
+#compose
+composeActivity = { group = "androidx.activity", name = "activity-compose", version = "1.8.2" }
+
+composePlatform = { group = "androidx.compose", name = "compose-bom", version.ref = "composePlatform" }
+compose-Ui = { module = "androidx.compose.ui:ui" }
+compose-Graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-Preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-Material3 = { module = "androidx.compose.material3:material3" }
+compose-debug-ui = {  module = "androidx.compose.ui:ui-tooling" }
+compose-debug-testManifest = {  module = "androidx.compose.ui:ui-test-manifest" }
+
+
+
+#tests
+test-base-junit = { group = "junit", name = "junit", version = "4.13.2" }
+
+test-android-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
+test-android-espresso = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.1" }
+
+test-android-compose-platform = { group = "androidx.compose", name = "compose-bom", version.ref = "composePlatform" }
+test-android-compose-junit = { module = "androidx.compose.ui:ui-test-junit4" }
