@@ -1,4 +1,4 @@
-package kz.flyingv.shutapp.common
+package kz.flyingv.shutapp.matrixflow
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("kz.flyingv.shutapp.common.test", appContext.packageName)
+        assertEquals("kz.flyingv.shutapp.matrixflow.test", appContext.packageName)
     }
 }

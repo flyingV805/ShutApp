@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "ShutApp"
 include(":app")
-include(":core:commonApi")
 include(":core:commonImpl")
 include(":feature:launch")
 include(":feature:login")
+include(":core:matrixFlow")

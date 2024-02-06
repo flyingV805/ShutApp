@@ -1,23 +1,55 @@
 [versions]
-composePlatform = "2023.08.00"
+composePlatform = "2024.01.00"
 ktx = "1.9.0"
+matrix = "1.6.10"
+hilt = "2.48.1"
+coroutines = "1.7.1"
+lifecycle = "2.7.0"
+preferences = "1.2.1"
+securedPreferences = "1.1.0-alpha06"
+agp = "8.2.2"
+kotlin = "1.9.22"
+appcompat = "1.6.1"
+material = "1.11.0"
 
 [libraries]
 #ktx
-ktx-Core = { group = "androidx.core", name = "core-ktx", version = "1.12.0" }
-ktx-Lifecycle = {group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.7.0"}
+ktx-core = { group = "androidx.core", name = "core-ktx", version = "1.12.0" }
+ktx-lifecycle = {group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.7.0"}
+
+#hilt
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
 #compose
 composeActivity = { group = "androidx.activity", name = "activity-compose", version = "1.8.2" }
 
 composePlatform = { group = "androidx.compose", name = "compose-bom", version.ref = "composePlatform" }
-compose-Ui = { module = "androidx.compose.ui:ui" }
-compose-Graphics = { module = "androidx.compose.ui:ui-graphics" }
-compose-Preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-compose-Material3 = { module = "androidx.compose.material3:material3" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-debug-ui = {  module = "androidx.compose.ui:ui-tooling" }
 compose-debug-testManifest = {  module = "androidx.compose.ui:ui-test-manifest" }
 
+#matrix-sdk
+matrix = { group = "org.matrix.android", name = "matrix-android-sdk2", version.ref = "matrix" }
+
+#coroutines
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+#lifecycle
+lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle" }
+lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+
+
+paging = { group = "androidx.paging", name = "paging-runtime-ktx", version = "3.2.1" }
+
+#preferences
+preferences = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferences" }
+preferences-secured = { group = "androidx.security", name = "security-crypto", version.ref = "securedPreferences" }
 
 
 #tests
@@ -28,3 +60,8 @@ test-android-espresso = { group = "androidx.test.espresso", name = "espresso-cor
 
 test-android-compose-platform = { group = "androidx.compose", name = "compose-bom", version.ref = "composePlatform" }
 test-android-compose-junit = { module = "androidx.compose.ui:ui-test-junit4" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+[plugins]
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

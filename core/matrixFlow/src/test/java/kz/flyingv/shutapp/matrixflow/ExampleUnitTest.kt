@@ -1,4 +1,4 @@
-package kz.flyingv.shutapp.common
+package kz.flyingv.shutapp.matrixflow
 
 import org.junit.Test
 
