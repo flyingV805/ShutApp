@@ -1,4 +1,4 @@
-package kz.flyingv.shutapp.login
+package kz.flyingv.shutapp.loginImpl
 
 import org.junit.Test
 

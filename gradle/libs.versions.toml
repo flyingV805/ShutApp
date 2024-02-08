@@ -8,9 +8,10 @@ lifecycle = "2.7.0"
 preferences = "1.2.1"
 securedPreferences = "1.1.0-alpha06"
 agp = "8.2.2"
-kotlin = "1.9.22"
+kotlin = "1.9.0"
 appcompat = "1.6.1"
 material = "1.11.0"
+navigation = "2.7.7"
 
 [libraries]
 #ktx
@@ -31,6 +32,8 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-debug-ui = {  module = "androidx.compose.ui:ui-tooling" }
 compose-debug-testManifest = {  module = "androidx.compose.ui:ui-test-manifest" }
+
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 
 #matrix-sdk
 matrix = { group = "org.matrix.android", name = "matrix-android-sdk2", version.ref = "matrix" }

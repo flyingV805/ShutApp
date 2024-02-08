@@ -17,5 +17,6 @@ rootProject.name = "ShutApp"
 include(":app")
 include(":core:commonImpl")
 include(":feature:launch")
-include(":feature:login")
+include(":feature:loginApi")
 include(":core:matrixFlow")
+include(":feature:loginImpl")

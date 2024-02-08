@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 // apply(from = "${project.rootDir}/dependencies.gradle.kts")
@@ -35,9 +37,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
-
     }
 
     buildFeatures {
@@ -69,10 +71,15 @@ dependencies {
     implementation(libs.compose.graphics)
     implementation(libs.compose.preview)
     implementation(libs.compose.material3)
+    implementation(libs.compose.navigation)
 
     //compose debug
     debugImplementation(libs.compose.debug.ui)
     debugImplementation(libs.compose.debug.testManifest)
+
+    //hilt
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 
     //tests
     testImplementation(libs.test.base.junit)

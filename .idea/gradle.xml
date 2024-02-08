@@ -15,7 +15,8 @@
             <option value="$PROJECT_DIR$/core/matrixFlow" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/launch" />
-            <option value="$PROJECT_DIR$/feature/login" />
+            <option value="$PROJECT_DIR$/feature/loginApi" />
+            <option value="$PROJECT_DIR$/feature/loginImpl" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
