@@ -17,6 +17,9 @@
             <option value="$PROJECT_DIR$/feature/launch" />
             <option value="$PROJECT_DIR$/feature/loginApi" />
             <option value="$PROJECT_DIR$/feature/loginImpl" />
+            <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/navigation/mavigatorApi" />
+            <option value="$PROJECT_DIR$/navigation/navigatorImpl" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
