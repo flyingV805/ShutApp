@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -43,9 +45,19 @@ android {
 dependencies {
 
     implementation(libs.ktx.core)
+
+    implementation(platform(libs.composePlatform))
     implementation(libs.compose.ui)
     implementation(libs.compose.graphics)
     implementation(libs.compose.preview)
     implementation(libs.compose.material3)
+    implementation(libs.compose.navigation)
+
+    //hilt
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+
+    //feature
+    implementation(project(":core:featureApi"))
 
 }

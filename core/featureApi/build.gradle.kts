@@ -1,12 +1,10 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
-    namespace = "kz.flyngv.navigatorimpl"
+    namespace = "kz.flyngv.featureapi"
     compileSdk = 34
 
     defaultConfig {
@@ -32,30 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
 }
 
 dependencies {
 
-    implementation(project(":navigation:navigatorApi"))
-
     implementation(libs.ktx.core)
     implementation(libs.compose.navigation)
-
-    implementation(project(":core:featureApi"))
-
-    //features
-    implementation(project(":feature:login"))
-    implementation(project(":feature:launch"))
-
-    implementation (libs.hilt)
-    kapt(libs.hilt.compiler)
 
 }

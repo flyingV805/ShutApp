@@ -1,12 +1,12 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "kz.flyngv.navigatorimpl"
+    namespace = "kz.flyngv.headsup"
     compileSdk = 34
 
     defaultConfig {
@@ -44,18 +44,15 @@ android {
 
 dependencies {
 
-    implementation(project(":navigation:navigatorApi"))
-
     implementation(libs.ktx.core)
-    implementation(libs.compose.navigation)
 
-    implementation(project(":core:featureApi"))
+    implementation(platform(libs.composePlatform))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.graphics)
+    implementation(libs.compose.preview)
+    implementation(libs.compose.material3)
 
-    //features
-    implementation(project(":feature:login"))
-    implementation(project(":feature:launch"))
-
-    implementation (libs.hilt)
+    //hilt
+    implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-
 }

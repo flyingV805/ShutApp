@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.ktx.core)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(project(":core:featureApi"))
     testImplementation(libs.test.base.junit)
     androidTestImplementation(libs.test.android.junit)
     androidTestImplementation(libs.test.android.espresso)

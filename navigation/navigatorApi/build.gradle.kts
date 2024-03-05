@@ -1,12 +1,11 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
-    namespace = "kz.flyngv.navigatorimpl"
+    namespace = "kz.flyngv.mavigatorapi"
     compileSdk = 34
 
     defaultConfig {
@@ -44,18 +43,6 @@ android {
 
 dependencies {
 
-    implementation(project(":navigation:navigatorApi"))
-
     implementation(libs.ktx.core)
     implementation(libs.compose.navigation)
-
-    implementation(project(":core:featureApi"))
-
-    //features
-    implementation(project(":feature:login"))
-    implementation(project(":feature:launch"))
-
-    implementation (libs.hilt)
-    kapt(libs.hilt.compiler)
-
 }

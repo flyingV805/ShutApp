@@ -73,6 +73,10 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.navigation)
 
+    implementation(project(":navigation:navigatorApi"))
+    implementation(project(":navigation:navigatorImpl"))
+    implementation(project(":feature:headsup"))
+
     //compose debug
     debugImplementation(libs.compose.debug.ui)
     debugImplementation(libs.compose.debug.testManifest)
