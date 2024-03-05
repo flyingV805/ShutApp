@@ -3,7 +3,7 @@ package kz.flyingv.shutapp.launch
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kz.flyingv.shutapp.launch.ui.LaunchScreen
-import kz.flyngv.featureapi.FeatureApi
+import kz.flyingv.featureapi.FeatureApi
 
 class LaunchFeature: FeatureApi {
 

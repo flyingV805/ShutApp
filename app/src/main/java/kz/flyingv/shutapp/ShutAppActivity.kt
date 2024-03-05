@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kz.flyingv.shutapp.ui.theme.ShutAppTheme
-import kz.flyngv.headsup.HeadsUpDisplay
-import kz.flyngv.navigatorapi.Navigator
+import kz.flyingv.headsup.HeadsUpDisplay
+import kz.flyingv.navigatorapi.Navigator
 import javax.inject.Inject
 
 @AndroidEntryPoint

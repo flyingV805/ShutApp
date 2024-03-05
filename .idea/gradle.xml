@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/cleanmvi" />
             <option value="$PROJECT_DIR$/core/commonImpl" />
             <option value="$PROJECT_DIR$/core/featureApi" />
             <option value="$PROJECT_DIR$/core/matrixFlow" />
