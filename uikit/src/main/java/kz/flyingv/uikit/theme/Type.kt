@@ -1,4 +1,4 @@
-package kz.flyingv.shutapp.ui.theme
+package kz.flyingv.uikit.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

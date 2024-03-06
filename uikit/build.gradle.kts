@@ -1,12 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "kz.flyingv.shutapp.loginImpl"
+    namespace = "kz.flyingv.uikit"
     compileSdk = 34
 
     defaultConfig {
@@ -45,24 +43,12 @@ android {
 dependencies {
 
     implementation(libs.ktx.core)
+    implementation(libs.appcompat)
 
     implementation(platform(libs.composePlatform))
     implementation(libs.compose.ui)
     implementation(libs.compose.graphics)
     implementation(libs.compose.preview)
     implementation(libs.compose.material3)
-    implementation(libs.compose.navigation)
 
-    //hilt
-    implementation(libs.hilt)
-    implementation(libs.hilt.compose.navigation)
-    kapt(libs.hilt.compiler)
-
-    implementation(project(":core:featureApi"))
-    implementation(project(":core:common"))
-    implementation(project(":navigation:navigatorApi"))
-
-    testImplementation(libs.test.base.junit)
-    androidTestImplementation(libs.test.android.junit)
-    androidTestImplementation(libs.test.android.espresso)
 }

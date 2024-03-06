@@ -12,6 +12,9 @@ kotlin = "1.9.0"
 appcompat = "1.6.1"
 material = "1.11.0"
 navigation = "2.7.7"
+hiltComposeNav = "1.2.0"
+
+accompanist = "0.30.0"
 
 [libraries]
 #ktx
@@ -21,6 +24,7 @@ ktx-lifecycle = {group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", v
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-compose-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltComposeNav" }
 
 #compose
 composeActivity = { group = "androidx.activity", name = "activity-compose", version = "1.8.2" }
@@ -34,6 +38,11 @@ compose-debug-ui = {  module = "androidx.compose.ui:ui-tooling" }
 compose-debug-testManifest = {  module = "androidx.compose.ui:ui-test-manifest" }
 
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
+#accompanist
+accompanist-drawablepainter = { group = "com.google.accompanist", name = "accompanist-drawablepainter", version.ref = "accompanist" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 
 #matrix-sdk
 matrix = { group = "org.matrix.android", name = "matrix-android-sdk2", version.ref = "matrix" }

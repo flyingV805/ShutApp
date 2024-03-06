@@ -10,12 +10,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "ShutApp"
 include(":app")
-include(":core:commonImpl")
+include(":core:common")
 include(":feature:launch")
 include(":feature:login")
 include(":core:matrixFlow")
@@ -24,3 +25,4 @@ include(":navigation:navigatorImpl")
 include(":core:featureApi")
 include(":feature:headsup")
 include(":core:cleanmvi")
+include(":uikit")

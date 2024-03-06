@@ -55,9 +55,12 @@ dependencies {
 
     //hilt
     implementation(libs.hilt)
+    implementation(libs.hilt.compose.navigation)
     kapt(libs.hilt.compiler)
 
     //feature
     implementation(project(":core:featureApi"))
+    implementation(project(":core:common"))
+    implementation(project(":navigation:navigatorApi"))
 
 }

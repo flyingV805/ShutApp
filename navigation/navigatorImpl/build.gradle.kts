@@ -52,8 +52,8 @@ dependencies {
     implementation(project(":core:featureApi"))
 
     //features
-    implementation(project(":feature:login"))
     implementation(project(":feature:launch"))
+    implementation(project(":feature:login"))
 
     implementation (libs.hilt)
     kapt(libs.hilt.compiler)

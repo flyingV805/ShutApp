@@ -73,9 +73,12 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.navigation)
 
+    implementation(libs.accompanist.systemuicontroller)
+
     implementation(project(":navigation:navigatorApi"))
     implementation(project(":navigation:navigatorImpl"))
     implementation(project(":feature:headsup"))
+    implementation(project(":uikit"))
 
     //compose debug
     debugImplementation(libs.compose.debug.ui)

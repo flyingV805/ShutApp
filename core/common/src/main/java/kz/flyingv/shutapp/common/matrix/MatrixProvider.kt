@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
@@ -15,7 +16,7 @@ object MatrixProvider {
 
     @Singleton
     @Provides
-    fun provideMatrix(context: Context): Matrix {
+    fun provideMatrix(@ApplicationContext context: Context): Matrix {
         val roomDisplayNameProvider = RoomDisplayNameProvider(context)
         return Matrix(
             context = context,

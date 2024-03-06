@@ -6,6 +6,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun HeadsUpDisplay() {
 
-    Text(text = "Heads UP Display")
+    Text(text = "")
 
 }
