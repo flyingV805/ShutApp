@@ -36,6 +36,7 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-debug-ui = {  module = "androidx.compose.ui:ui-tooling" }
 compose-debug-testManifest = {  module = "androidx.compose.ui:ui-test-manifest" }
+compose-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
 
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 

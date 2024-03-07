@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.compose.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.navigation)
+    implementation(libs.compose.lifecycle)
 
     //hilt
     implementation(libs.hilt)
