@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -36,6 +37,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kz.flyingv.shutapp.login.ui.model.LoginStage
 import kz.flyingv.uikit.compose.collectAsEffect
@@ -48,6 +50,8 @@ fun LoginScreen(
 ) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleScope = rememberCoroutineScope()
+
     val uiState = viewModel.provideState().collectAsStateWithLifecycle()
 
     val pagerState = rememberPagerState { LoginStage.entries.size }
@@ -59,7 +63,7 @@ fun LoginScreen(
             userScrollEnabled = false
         ) {
             when(LoginStage.entries[it]){
-                LoginStage.Welcome -> Welcome(viewModel, padding)
+                LoginStage.Welcome -> Welcome(padding){  lifecycleScope.launch { pagerState.animateScrollToPage(LoginStage.Server.ordinal) } }
                 LoginStage.Server -> Server(viewModel, padding)
             }
         }
@@ -84,7 +88,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun Welcome(viewModel: LoginViewModel, paddingValues: PaddingValues){
+fun Welcome(paddingValues: PaddingValues, onDone: ()-> Unit){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("lottie/welcome.json"))
 
@@ -122,7 +126,7 @@ fun Welcome(viewModel: LoginViewModel, paddingValues: PaddingValues){
 
         LargeButton(
             buttonText = "Let's start!",
-            onClick = { viewModel.reduce(LoginAction.SelectServer) }
+            onClick = { onDone() }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
