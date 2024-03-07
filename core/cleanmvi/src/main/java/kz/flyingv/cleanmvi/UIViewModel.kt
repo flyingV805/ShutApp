@@ -30,8 +30,8 @@ abstract class UIViewModel<S : UIState, in A : UIAction, E: UIEvent>(
         //_uiState.tryEmit(newState)
     }
 
-    protected fun pushEvent(event: E){
-        _uiEvent.tryEmit(event)
+    protected suspend fun pushEvent(event: E){
+        _uiEvent.emit(event)
     }
 
     @CallSuper

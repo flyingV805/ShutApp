@@ -2,5 +2,8 @@ package kz.flyingv.shutapp.login.ui
 
 import kz.flyingv.cleanmvi.UIEvent
 
-class LoginEvent: UIEvent {
+sealed class LoginEvent: UIEvent {
+
+    data object ShowServer: LoginEvent()
+
 }

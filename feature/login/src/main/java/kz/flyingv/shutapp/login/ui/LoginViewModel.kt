@@ -1,5 +1,6 @@
 package kz.flyingv.shutapp.login.ui
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -11,6 +12,14 @@ class LoginViewModel @Inject constructor(): UIViewModel<LoginState, LoginAction,
 
     init {
         viewModelScope.launch {  }
+    }
+
+    override fun reduce(action: LoginAction) {
+        super.reduce(action)
+        Log.d("reduce", action.toString())
+        when(action){
+            LoginAction.SelectServer -> { viewModelScope.launch { pushEvent(LoginEvent.ShowServer)} }
+        }
     }
 
 }

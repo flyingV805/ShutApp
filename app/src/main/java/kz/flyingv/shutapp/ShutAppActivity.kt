@@ -31,16 +31,9 @@ class ShutAppActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val primaryColor = when {
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) -> {
-                    if (isSystemInDarkTheme()) dynamicDarkColorScheme(this).primaryContainer
-                    else dynamicLightColorScheme(this).primaryContainer
-                }
-                else -> primary
-            }
 
             val systemUiController = rememberSystemUiController()
-            systemUiController.setSystemBarsColor( color = primaryColor )
+            systemUiController.setSystemBarsColor( color = primary )
 
             ShutAppTheme {
                 // A surface container using the 'background' color from the theme
