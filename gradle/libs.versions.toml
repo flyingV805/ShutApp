@@ -13,8 +13,9 @@ appcompat = "1.6.1"
 material = "1.11.0"
 navigation = "2.7.7"
 hiltComposeNav = "1.2.0"
-
 accompanist = "0.30.0"
+
+lottie = "6.4.0"
 
 [libraries]
 #ktx
@@ -28,7 +29,6 @@ hilt-compose-navigation = { group = "androidx.hilt", name = "hilt-navigation-com
 
 #compose
 composeActivity = { group = "androidx.activity", name = "activity-compose", version = "1.8.2" }
-
 composePlatform = { group = "androidx.compose", name = "compose-bom", version.ref = "composePlatform" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-graphics = { module = "androidx.compose.ui:ui-graphics" }
@@ -63,6 +63,8 @@ paging = { group = "androidx.paging", name = "paging-runtime-ktx", version = "3.
 preferences = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferences" }
 preferences-secured = { group = "androidx.security", name = "security-crypto", version.ref = "securedPreferences" }
 
+#lottie
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 
 #tests
 test-base-junit = { group = "junit", name = "junit", version = "4.13.2" }

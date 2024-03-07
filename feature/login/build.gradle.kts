@@ -59,8 +59,13 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(project(":core:featureApi"))
+    implementation(project(":core:cleanmvi"))
     implementation(project(":core:common"))
     implementation(project(":navigation:navigatorApi"))
+
+    //ui
+    implementation(project(":uikit"))
+    implementation(libs.lottie.compose)
 
     testImplementation(libs.test.base.junit)
     androidTestImplementation(libs.test.android.junit)
