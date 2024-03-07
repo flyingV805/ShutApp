@@ -78,6 +78,7 @@ dependencies {
     implementation(project(":navigation:navigatorApi"))
     implementation(project(":navigation:navigatorImpl"))
     implementation(project(":feature:headsup"))
+    implementation(project(":feature:notifications"))
     implementation(project(":uikit"))
 
     //compose debug

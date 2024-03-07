@@ -1,12 +1,12 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "kz.flyngv.navigatorimpl"
+    namespace = "kz.flyingv.notifications"
     compileSdk = 34
 
     defaultConfig {
@@ -32,32 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
 }
 
 dependencies {
 
-    implementation(project(":navigation:navigatorApi"))
-
     implementation(libs.ktx.core)
-    implementation(libs.compose.navigation)
+    implementation(libs.appcompat)
 
-    implementation(project(":core:featureApi"))
+    implementation(project(":core:common"))
 
-    //features
-    implementation(project(":feature:launch"))
-    implementation(project(":feature:login"))
-    implementation(project(":feature:home"))
-
-    //di
-    implementation (libs.hilt)
+    //hilt
+    implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-
 }
