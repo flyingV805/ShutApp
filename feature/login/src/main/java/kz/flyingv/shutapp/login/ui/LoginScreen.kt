@@ -1,11 +1,14 @@
 package kz.flyingv.shutapp.login.ui
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,9 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,8 +30,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -40,6 +50,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kz.flyingv.shutapp.login.ui.model.LoginStage
+import kz.flyingv.shutapp.login.ui.model.LoginStage.*
 import kz.flyingv.uikit.compose.collectAsEffect
 import kz.flyingv.uikit.widget.LargeButton
 
@@ -53,37 +64,33 @@ fun LoginScreen(
     val lifecycleScope = rememberCoroutineScope()
 
     val uiState = viewModel.provideState().collectAsStateWithLifecycle()
-
     val pagerState = rememberPagerState { LoginStage.entries.size }
 
     Scaffold { padding ->
-        
         HorizontalPager(
             state = pagerState,
             userScrollEnabled = false
         ) {
             when(LoginStage.entries[it]){
-                LoginStage.Welcome -> Welcome(padding){  lifecycleScope.launch { pagerState.animateScrollToPage(LoginStage.Server.ordinal) } }
-                LoginStage.Server -> Server(viewModel, padding)
+                Welcome -> Welcome(padding){ lifecycleScope.launch { pagerState.animateScrollToPage(Server.ordinal) } }
+                Server -> Server(viewModel, padding)
+                Authorization -> Authorize(viewModel, padding)
             }
         }
-
     }
 
     LaunchedEffect(Unit) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             withContext(Dispatchers.Main.immediate) {
-                viewModel.provideEvents().collect {
-                    Log.d("provideEvents", it.toString())
-                    when(it){
-                        LoginEvent.ShowServer -> pagerState.animateScrollToPage(LoginStage.Server.ordinal)
+                viewModel.provideEvents().collect {event ->
+                    Log.d("provideEvents", event.toString())
+                    when(event){
+                        LoginEvent.AuthorizeOnServer -> pagerState.animateScrollToPage(Authorization.ordinal)
                     }
                 }
             }
         }
     }
-
-
     
 }
 
@@ -103,26 +110,26 @@ fun Welcome(paddingValues: PaddingValues, onDone: ()-> Unit){
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "Welcome to ShutApp!",
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center
-        )
-
         LottieAnimation(
             modifier = Modifier.weight(1f),
             composition = composition,
             iterations = LottieConstants.IterateForever,
         )
 
-
         Text(
-            text = "Fast, Simple and Open Matrix Client",
+            text = "Welcome to ShutApp!",
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "Fast, simple and open client for Matrix.\nHigh-end Encryption.\nNo, and there will be no collection of personal data.",
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
 
         LargeButton(
             buttonText = "Let's start!",
@@ -138,6 +145,7 @@ fun Welcome(paddingValues: PaddingValues, onDone: ()-> Unit){
 @Composable
 fun Server(viewModel: LoginViewModel, paddingValues: PaddingValues){
 
+    val uiState = viewModel.provideState().collectAsStateWithLifecycle()
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("lottie/server.json"))
 
     Column(
@@ -151,34 +159,93 @@ fun Server(viewModel: LoginViewModel, paddingValues: PaddingValues){
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "Pick a Matrix Server!",
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center
-        )
-
         LottieAnimation(
             modifier = Modifier.weight(1f),
             composition = composition,
             iterations = LottieConstants.IterateForever,
         )
 
-/*
         Text(
-            text = "Fast, Simple and Open Matrix Client",
+            text = "Pick a Matrix Server!",
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center
-        )*/
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+        
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { viewModel.reduce(LoginAction.ChooseMatrixOrg) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = uiState.value.useMatrixOrg,
+                    onClick = { viewModel.reduce(LoginAction.ChooseMatrixOrg) }
+                )
+                Text(
+                    text = "matrix.org",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                    textDecoration = TextDecoration.Underline
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { viewModel.reduce(LoginAction.ChooseCustomServer) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = uiState.value.useCustomServer,
+                    onClick = { viewModel.reduce(LoginAction.ChooseCustomServer) }
+                )
+
+                AnimatedVisibility(visible = !uiState.value.useCustomServer) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Custom Matrix Server",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+
+                AnimatedVisibility(visible = uiState.value.useCustomServer) {
+                    TextField(
+                        modifier = Modifier.weight(1f).fillMaxHeight(),
+                        value = uiState.value.customServer,
+                        enabled = uiState.value.useCustomServer,
+                        prefix = { Text(text = "https://") },
+                        onValueChange = {value ->
+                            viewModel.reduce(LoginAction.UpdateCustomServer(value))
+                        }
+                    )
+                }
+
+            }
+            
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
         LargeButton(
-            buttonText = "Let's start!",
-            onClick = {}
+            buttonText = "Authorize",
+            onClick = { viewModel.reduce(LoginAction.ServerPicked) }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
     }
+
+}
+
+@Composable
+fun Authorize(viewModel: LoginViewModel, paddingValues: PaddingValues){
 
 }

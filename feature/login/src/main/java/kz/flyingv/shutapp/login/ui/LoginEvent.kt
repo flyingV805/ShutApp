@@ -4,6 +4,6 @@ import kz.flyingv.cleanmvi.UIEvent
 
 sealed class LoginEvent: UIEvent {
 
-    data object ShowServer: LoginEvent()
+    data object AuthorizeOnServer: LoginEvent()
 
 }

@@ -4,6 +4,9 @@ import kz.flyingv.cleanmvi.UIAction
 
 sealed class LoginAction: UIAction {
 
-    data object SelectServer: LoginAction()
+    data object ChooseMatrixOrg: LoginAction()
+    data object ChooseCustomServer: LoginAction()
+    data class UpdateCustomServer(val value: String): LoginAction()
+    data object ServerPicked: LoginAction()
 
 }

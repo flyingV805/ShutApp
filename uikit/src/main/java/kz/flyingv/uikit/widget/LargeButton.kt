@@ -18,6 +18,7 @@ import kz.flyingv.uikit.decoration.shutAppGradient
 @Composable
 fun LargeButton(
     buttonText: String,
+    enabled: Boolean = true,
     onClick: () -> Unit?
 ) {
     
@@ -25,11 +26,16 @@ fun LargeButton(
         modifier = Modifier
             .background(shutAppGradient, RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
-            .clickable { onClick() }
+            .clickable(enabled = enabled) { onClick() }
             .padding(horizontal = 32.dp, vertical = 16.dp)
     ){
 
-        Text(text = buttonText, style = MaterialTheme.typography.bodyLarge.copy(color = Color.White))
+        Text(
+            text = buttonText,
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = if(enabled) Color.White else Color.White.copy(alpha = .7f)
+            )
+        )
 
     }
     

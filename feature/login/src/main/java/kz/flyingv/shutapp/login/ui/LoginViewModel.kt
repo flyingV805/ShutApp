@@ -18,7 +18,18 @@ class LoginViewModel @Inject constructor(): UIViewModel<LoginState, LoginAction,
         super.reduce(action)
         Log.d("reduce", action.toString())
         when(action){
-            LoginAction.SelectServer -> { viewModelScope.launch { pushEvent(LoginEvent.ShowServer)} }
+            LoginAction.ChooseCustomServer -> {
+                pushState(currentState().copy(useCustomServer = true, useMatrixOrg = false))
+            }
+            LoginAction.ChooseMatrixOrg -> {
+                pushState(currentState().copy(useCustomServer = false, useMatrixOrg = true))
+            }
+            is LoginAction.UpdateCustomServer -> {
+                pushState(currentState().copy(customServer = action.value))
+            }
+            LoginAction.ServerPicked -> {
+                viewModelScope.launch { pushEvent(LoginEvent.AuthorizeOnServer) }
+            }
         }
     }
 
