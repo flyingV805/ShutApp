@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -86,6 +87,7 @@ fun LoginScreen(
                     Log.d("provideEvents", event.toString())
                     when(event){
                         LoginEvent.AuthorizeOnServer -> pagerState.animateScrollToPage(Authorization.ordinal)
+                        LoginEvent.InvalidServer -> TODO()
                     }
                 }
             }
@@ -171,73 +173,78 @@ fun Server(viewModel: LoginViewModel, paddingValues: PaddingValues){
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        Column(
-            modifier = Modifier.fillMaxWidth()
+       Spacer(modifier = Modifier.height(24.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .clickable { viewModel.reduce(LoginAction.ChooseMatrixOrg) },
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable { viewModel.reduce(LoginAction.ChooseMatrixOrg) },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = uiState.value.useMatrixOrg,
-                    onClick = { viewModel.reduce(LoginAction.ChooseMatrixOrg) }
-                )
+            RadioButton(
+                selected = uiState.value.useMatrixOrg,
+                onClick = { viewModel.reduce(LoginAction.ChooseMatrixOrg) }
+            )
+            Text(
+                text = "matrix.org",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.secondary,
+                textDecoration = TextDecoration.Underline
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .clickable { viewModel.reduce(LoginAction.ChooseCustomServer) },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(
+                selected = uiState.value.useCustomServer,
+                onClick = { viewModel.reduce(LoginAction.ChooseCustomServer) }
+            )
+
+            AnimatedVisibility(visible = !uiState.value.useCustomServer) {
                 Text(
-                    text = "matrix.org",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary,
-                    textDecoration = TextDecoration.Underline
+                    modifier = Modifier.weight(1f),
+                    text = "Custom Matrix Server",
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable { viewModel.reduce(LoginAction.ChooseCustomServer) },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = uiState.value.useCustomServer,
-                    onClick = { viewModel.reduce(LoginAction.ChooseCustomServer) }
+
+            AnimatedVisibility(visible = uiState.value.useCustomServer) {
+                TextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    value = uiState.value.customServer,
+                    enabled = uiState.value.useCustomServer,
+                    prefix = { Text(text = "https://") },
+                    onValueChange = {value ->
+                        viewModel.reduce(LoginAction.UpdateCustomServer(value))
+                    }
                 )
-
-                AnimatedVisibility(visible = !uiState.value.useCustomServer) {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "Custom Matrix Server",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
-                AnimatedVisibility(visible = uiState.value.useCustomServer) {
-                    TextField(
-                        modifier = Modifier.weight(1f).fillMaxHeight(),
-                        value = uiState.value.customServer,
-                        enabled = uiState.value.useCustomServer,
-                        prefix = { Text(text = "https://") },
-                        onValueChange = {value ->
-                            viewModel.reduce(LoginAction.UpdateCustomServer(value))
-                        }
-                    )
-                }
-
             }
-            
+
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        LargeButton(
-            buttonText = "Authorize",
-            onClick = { viewModel.reduce(LoginAction.ServerPicked) }
-        )
+        Crossfade(targetState = uiState.value.validating, label = "") {
+            when(it){
+                true -> Box(modifier = Modifier.height(56.dp)){
+                    CircularProgressIndicator()
+                }
+                false -> LargeButton(
+                    buttonText = "Authorize",
+                    enabled = !uiState.value.validating,
+                    onClick = { viewModel.reduce(LoginAction.ServerPicked) }
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 

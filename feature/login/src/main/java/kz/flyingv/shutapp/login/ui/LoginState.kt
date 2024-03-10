@@ -5,5 +5,6 @@ import kz.flyingv.cleanmvi.UIState
 data class LoginState(
     val useMatrixOrg: Boolean = true,
     val useCustomServer: Boolean = false,
-    val customServer: String = "matrix."
+    val customServer: String = "matrix.",
+    val validating: Boolean = false,
 ): UIState

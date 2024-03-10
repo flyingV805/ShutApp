@@ -1,8 +1,10 @@
 package kz.flyingv.shutapp.login.ui
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kz.flyingv.cleanmvi.UIViewModel
 import kz.flyingv.shutapp.login.domain.usecase.GetServerUseCase
@@ -22,17 +24,38 @@ class LoginViewModel @Inject constructor(
         Log.d("reduce", action.toString())
         when(action){
             LoginAction.ChooseCustomServer -> {
+                if(currentState().validating){ return }
                 pushState(currentState().copy(useCustomServer = true, useMatrixOrg = false))
             }
             LoginAction.ChooseMatrixOrg -> {
+                if(currentState().validating){ return }
                 pushState(currentState().copy(useCustomServer = false, useMatrixOrg = true))
             }
             is LoginAction.UpdateCustomServer -> {
+                if(currentState().validating){ return }
                 pushState(currentState().copy(customServer = action.value))
             }
             LoginAction.ServerPicked -> {
-                viewModelScope.launch { pushEvent(LoginEvent.AuthorizeOnServer) }
+                viewModelScope.launch(Dispatchers.IO){
+                    pushState(currentState().copy(validating = true))
+                    val homeServerUrl = getServerUri()
+                    if(serverUseCase(homeServerUrl)){
+                        pushEvent(LoginEvent.AuthorizeOnServer)
+                    }else{
+                        pushState(currentState().copy(validating = false))
+                        pushEvent(LoginEvent.InvalidServer)
+                    }
+                    //pushEvent(LoginEvent.AuthorizeOnServer)
+                }
             }
+        }
+    }
+
+    private fun getServerUri(): String {
+        val currentState = currentState()
+        return when{
+            currentState.useMatrixOrg -> "https://matrix.org"
+            else -> "https://${currentState.customServer}"
         }
     }
 

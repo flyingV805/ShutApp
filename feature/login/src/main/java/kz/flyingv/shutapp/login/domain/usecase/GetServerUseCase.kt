@@ -1,8 +1,9 @@
 package kz.flyingv.shutapp.login.domain.usecase
 
 import kz.flyingv.shutapp.common.matrix.HomeServerUtil
+import javax.inject.Inject
 
-class GetServerUseCase (
+class GetServerUseCase @Inject constructor(
     private val homeServerUtil: HomeServerUtil
 ) {
 
