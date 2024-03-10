@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kz.flyingv.cleanmvi.UIViewModel
+import kz.flyingv.shutapp.login.domain.usecase.GetServerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): UIViewModel<LoginState, LoginAction, LoginEvent>(LoginState()) {
+class LoginViewModel @Inject constructor(
+    private val serverUseCase: GetServerUseCase
+): UIViewModel<LoginState, LoginAction, LoginEvent>(LoginState()) {
 
     init {
         viewModelScope.launch {  }

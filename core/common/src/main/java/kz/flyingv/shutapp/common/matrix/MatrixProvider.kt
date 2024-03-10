@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
+import org.matrix.android.sdk.api.auth.AuthenticationService
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +25,18 @@ object MatrixProvider {
                 roomDisplayNameFallbackProvider = roomDisplayNameProvider
             )
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideHomeServerUtil(): HomeServerUtil {
+        return HomeServerUtil()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthService(matrix: Matrix): AuthenticationService {
+        return matrix.authenticationService()
     }
 
 }
