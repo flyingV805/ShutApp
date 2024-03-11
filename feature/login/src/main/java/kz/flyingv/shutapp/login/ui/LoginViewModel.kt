@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kz.flyingv.cleanmvi.UIViewModel
 import kz.flyingv.shutapp.login.domain.usecase.GetServerUseCase
+import kz.flyingv.shutapp.login.ui.model.LoginStage
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +24,9 @@ class LoginViewModel @Inject constructor(
         super.reduce(action)
         Log.d("reduce", action.toString())
         when(action){
+            LoginAction.WelcomeDone -> {
+                pushState(currentState().copy(setupState = LoginStage.Server))
+            }
             LoginAction.ChooseCustomServer -> {
                 if(currentState().validating){ return }
                 pushState(currentState().copy(useCustomServer = true, useMatrixOrg = false))
@@ -40,7 +44,7 @@ class LoginViewModel @Inject constructor(
                     pushState(currentState().copy(validating = true))
                     val homeServerUrl = getServerUri()
                     if(serverUseCase(homeServerUrl)){
-                        pushEvent(LoginEvent.AuthorizeOnServer)
+                        pushState(currentState().copy(validating = false, setupState = LoginStage.Authorization))
                     }else{
                         pushState(currentState().copy(validating = false))
                         pushEvent(LoginEvent.InvalidServer)

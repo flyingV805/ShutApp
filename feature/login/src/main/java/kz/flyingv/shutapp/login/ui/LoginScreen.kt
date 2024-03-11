@@ -3,7 +3,9 @@ package kz.flyingv.shutapp.login.ui
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -53,6 +56,9 @@ import kotlinx.coroutines.withContext
 import kz.flyingv.shutapp.login.ui.model.LoginStage
 import kz.flyingv.shutapp.login.ui.model.LoginStage.*
 import kz.flyingv.uikit.compose.collectAsEffect
+import kz.flyingv.uikit.decoration.welcomeGradient2
+import kz.flyingv.uikit.decoration.welcomeGradientAccent
+import kz.flyingv.uikit.decoration.welcomeGradientPrimary
 import kz.flyingv.uikit.widget.LargeButton
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -68,28 +74,47 @@ fun LoginScreen(
     val pagerState = rememberPagerState { LoginStage.entries.size }
 
     Scaffold { padding ->
+
+        Crossfade(
+            targetState = uiState.value.setupState,
+            label = "",
+            animationSpec = tween(durationMillis = 500)
+        ) {
+
+            when(it){
+                Welcome -> Box(
+                    modifier = Modifier.fillMaxSize()
+                        .background(welcomeGradientPrimary),
+                )
+                Server -> Box(
+                    modifier = Modifier.fillMaxSize()
+                        .background(welcomeGradientAccent),
+                )
+                Authorization -> Box(
+                    modifier = Modifier.fillMaxSize()
+                        .background(welcomeGradient2),
+                )
+            }
+
+        }
+
         HorizontalPager(
             state = pagerState,
             userScrollEnabled = false
         ) {
             when(LoginStage.entries[it]){
-                Welcome -> Welcome(padding){ lifecycleScope.launch { pagerState.animateScrollToPage(Server.ordinal) } }
+                Welcome -> Welcome(padding){ viewModel.reduce(LoginAction.WelcomeDone) }
                 Server -> Server(viewModel, padding)
                 Authorization -> Authorize(viewModel, padding)
             }
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = uiState.value.setupState) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             withContext(Dispatchers.Main.immediate) {
-                viewModel.provideEvents().collect {event ->
-                    Log.d("provideEvents", event.toString())
-                    when(event){
-                        LoginEvent.AuthorizeOnServer -> pagerState.animateScrollToPage(Authorization.ordinal)
-                        LoginEvent.InvalidServer -> TODO()
-                    }
-                }
+                val currentStage = uiState.value.setupState
+                pagerState.animateScrollToPage(currentStage.ordinal)
             }
         }
     }
