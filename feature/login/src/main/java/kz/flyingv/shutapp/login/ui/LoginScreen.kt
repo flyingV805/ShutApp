@@ -73,6 +73,8 @@ fun LoginScreen(
     val uiState = viewModel.provideState().collectAsStateWithLifecycle()
     val pagerState = rememberPagerState { LoginStage.entries.size }
 
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("lottie/server.json"))
+
     Scaffold { padding ->
 
         Crossfade(
@@ -104,7 +106,7 @@ fun LoginScreen(
         ) {
             when(LoginStage.entries[it]){
                 Welcome -> Welcome(padding){ viewModel.reduce(LoginAction.WelcomeDone) }
-                Server -> Server(viewModel, padding)
+                Server -> Server(viewModel, padding, composition)
                 Authorization -> Authorize(viewModel, padding)
             }
         }
@@ -114,7 +116,9 @@ fun LoginScreen(
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             withContext(Dispatchers.Main.immediate) {
                 val currentStage = uiState.value.setupState
-                pagerState.animateScrollToPage(currentStage.ordinal)
+                pagerState.animateScrollToPage(
+                    currentStage.ordinal
+                )
             }
         }
     }
@@ -170,10 +174,9 @@ fun Welcome(paddingValues: PaddingValues, onDone: ()-> Unit){
 }
 
 @Composable
-fun Server(viewModel: LoginViewModel, paddingValues: PaddingValues){
+fun Server(viewModel: LoginViewModel, paddingValues: PaddingValues, composition: LottieComposition?){
 
     val uiState = viewModel.provideState().collectAsStateWithLifecycle()
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("lottie/server.json"))
 
     Column(
         modifier = Modifier
