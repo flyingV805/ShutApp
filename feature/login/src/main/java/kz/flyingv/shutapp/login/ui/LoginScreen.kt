@@ -21,7 +21,13 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -31,13 +37,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -85,15 +96,18 @@ fun LoginScreen(
 
             when(it){
                 Welcome -> Box(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .background(welcomeGradientPrimary),
                 )
                 Server -> Box(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .background(welcomeGradientAccent),
                 )
                 Authorization -> Box(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .background(welcomeGradient2),
                 )
             }
@@ -282,5 +296,65 @@ fun Server(viewModel: LoginViewModel, paddingValues: PaddingValues, composition:
 
 @Composable
 fun Authorize(viewModel: LoginViewModel, paddingValues: PaddingValues){
+
+    val uiState = viewModel.provideState().collectAsStateWithLifecycle()
+
+    var obscurePassword by remember { mutableStateOf(true) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .padding(paddingValues)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        TextField(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
+            label = { Text(text = "Username") },
+            leadingIcon = { Icon(Icons.Filled.AccountBox, contentDescription = null) },
+            value = "",
+            onValueChange = {value ->
+                viewModel.reduce(LoginAction.UpdateCustomServer(value))
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
+            label = { Text(text = "Password") },
+            leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
+            trailingIcon = {
+                IconButton(
+                    onClick = { obscurePassword = !obscurePassword }
+                ) {
+                    Icon(
+                        imageVector = if(obscurePassword) Icons.Outlined.AddCircle else Icons.Outlined.AddCircle,
+                        contentDescription = null
+                    )
+                }
+            },
+            visualTransformation = if (obscurePassword) PasswordVisualTransformation() else VisualTransformation.None,
+            value = "",
+            onValueChange = {value ->
+                viewModel.reduce(LoginAction.UpdateCustomServer(value))
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LargeButton(
+            buttonText = "Authorize",
+            enabled = !uiState.value.validating,
+            onClick = { viewModel.reduce(LoginAction.ServerPicked) }
+        )
+
+    }
 
 }
